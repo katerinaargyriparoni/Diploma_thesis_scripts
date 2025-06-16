@@ -164,14 +164,14 @@ print("\nClassification results have been saved to 'classification_model_results
 # Logistic Regression - Σημαντικότητα χαρακτηριστικών
 log_reg_model = models['Logistic Regression']
 
-# Συντελεστές (coefficients) για Logistic Regression
+# Coefficients for Logistic Regression
 coefficients = log_reg_model.coef_[0]
 log_reg_importance = pd.DataFrame({
     'Feature': X.columns,
     'Importance': np.abs(coefficients)
 }).sort_values(by='Importance', ascending=False)
 
-# Οπτικοποίηση
+# Visualization
 plt.figure(figsize=(10, 6))
 plt.barh(log_reg_importance['Feature'], log_reg_importance['Importance'], color='lightcoral')
 plt.gca().invert_yaxis()
@@ -184,13 +184,13 @@ print(log_reg_importance)
 
 rf_model = models['Random Forest']
 
-# Σημαντικότητα από Random Forest
+# Random Forest feature importance
 rf_importance = pd.DataFrame({
     'Feature': X.columns,
     'Importance': rf_model.feature_importances_
 }).sort_values(by='Importance', ascending=False)
 
-# Οπτικοποίηση
+# Visualization
 plt.figure(figsize=(10, 6))
 plt.barh(rf_importance['Feature'], rf_importance['Importance'], color='skyblue')
 plt.gca().invert_yaxis()
@@ -203,13 +203,13 @@ print(rf_importance)
 
 xgb_model = models['XGBoost']
 
-# Σημαντικότητα από XGBoost
+# XGBoost feature importance
 xgb_importance = pd.DataFrame({
     'Feature': X.columns,
     'Importance': xgb_model.feature_importances_
 }).sort_values(by='Importance', ascending=False)
 
-# Οπτικοποίηση
+# Visualization
 plt.figure(figsize=(10, 6))
 plt.barh(xgb_importance['Feature'], xgb_importance['Importance'], color='lightgreen')
 plt.gca().invert_yaxis()
@@ -222,13 +222,13 @@ print(xgb_importance)
 
 dt_model = models['Decision Tree']
 
-# Σημαντικότητα από Decision Tree
+# Decision Tree feature importance
 dt_importance = pd.DataFrame({
     'Feature': X.columns,
     'Importance': dt_model.feature_importances_
 }).sort_values(by='Importance', ascending=False)
 
-# Οπτικοποίηση
+# Visualization
 plt.figure(figsize=(10, 6))
 plt.barh(dt_importance['Feature'], dt_importance['Importance'], color='orange')
 plt.gca().invert_yaxis()
@@ -243,7 +243,7 @@ import shap
 
 svc_model = models['Support Vector Classifier']
 
-# Δημιουργία Explainer για SVC
+# Creating an explainer for SVC
 explainer = shap.KernelExplainer(svc_model.predict, x_train)
 shap_values_svc = explainer.shap_values(x_test, nsamples=100)
 
@@ -252,14 +252,14 @@ shap.summary_plot(shap_values_svc, x_test, feature_names=X.columns)
 
 mlp_model = models['MLP Classifier']
 
-# Δημιουργία Explainer για MLP
+# Creating an explainer for MLP
 explainer = shap.KernelExplainer(mlp_model.predict, x_train)
 shap_values_mlp = explainer.shap_values(x_test, nsamples=100)
 
 # SHAP Summary Plot
 #shap.summary_plot(shap_values_mlp, x_test, feature_names=X.columns)
 
-# Συγκριτικός πίνακας σημαντικότητας
+# Comparative table of importance
 feature_importances_combined = pd.DataFrame({
     'Feature': X.columns,
     'Logistic Regression': log_reg_importance.set_index('Feature')['Importance'],
@@ -268,11 +268,11 @@ feature_importances_combined = pd.DataFrame({
     'Decision Tree': dt_importance.set_index('Feature')['Importance']
 })
 
-# Εμφάνιση πίνακα
+# Display of table
 print("Συγκριτικός Πίνακας Σημαντικότητας:")
 print(feature_importances_combined)
 
-# Οπτικοποίηση με heatmap 
+# Visualization with heatmap 
 import seaborn as sns
 plt.figure(figsize=(12, 8))
 sns.heatmap(feature_importances_combined.set_index('Feature'), annot=True, cmap='coolwarm')
