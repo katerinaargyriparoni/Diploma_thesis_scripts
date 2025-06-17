@@ -22,7 +22,7 @@ Project Structure & File Descriptions:
 - Implements classification models to categorize regions based on their thermal behavior.
 - Used to identify areas with high or low UHI impact.
 
-6. model_regression.py 
+6. model_regression.py (The model did not perform perfectly)
 - Contains regression models to predict temperature values based on environmental factors.
 - Helps estimate temperature variations in specific locations.
   
